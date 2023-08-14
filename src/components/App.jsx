@@ -4,13 +4,13 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { nanoid } from 'nanoid';
 import css from './App.module.css';
-import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact, setFilter } from 'redux/actions';
 
 export const App = () => {
   const dispatch = useDispatch();
   const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
+  const filter = useSelector(state => state.filter);
 
   useEffect(() => {
     const savedContacts = JSON.parse(localStorage.getItem('contacts'));
@@ -37,8 +37,8 @@ export const App = () => {
       : setContacts([contact, ...contacts]);
   };
 
-  const changeFilterInput = e => {
-    dispatch(setFilter(e.target.value));
+  const handleFilterChange = e => {
+    dispatch(setFilter(e.target.value)); // Dispatch the setFilter action
   };
 
   const findContacts = () => {
@@ -57,7 +57,7 @@ export const App = () => {
       <h1 className={css.title}>Phonebook</h1>
       <ContactForm onSubmit={formSubmit} />
       <h2>Contacts</h2>
-      <Filter filter={filter} changeFilterInput={changeFilterInput} />
+      <Filter filter={filter} changeFilterInput={handleFilterChange} />
       <ContactList
         contacts={findContacts()}
         deleteContact={handleDeleteContact}
