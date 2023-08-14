@@ -38,7 +38,7 @@ export const App = () => {
   };
 
   const handleFilterChange = e => {
-    dispatch(setFilter(e.target.value)); // Dispatch the setFilter action
+    dispatch(setFilter(e.target.value));
   };
 
   const findContacts = () => {
